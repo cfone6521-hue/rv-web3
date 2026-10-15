@@ -1,0 +1,23 @@
+{
+  "name": "rv-web3-wallet",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "RV.Web3 multi-chain wallet frontend and Binance Web3 API backend",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "check": "node --check server.js && node scripts/check-frontend.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "ethers": "^6.13.1",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "helmet": "^8.1.0",
+    "cors": "^2.8.5"
+  }
+}
