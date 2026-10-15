@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#F3BA2F">
+<meta name="description" content="RV.Web3 — Carteira Multi-Rede e painel blockchain">
+<title>RV.Web3 — Carteira Multi-Rede</title>
+<style>
+:root{--bg:#050b12;--panel:rgba(8,20,27,.88);--line:rgba(65,222,180,.19);--green:#22e59a;--cyan:#31d5dc;--gold:#c9b65f;--yellow:#F3BA2F;--muted:#78918e;--text:#e4f5ef;--card:#1A1F26;--card-border:#2C333C;--red:#ef4444;--blue:#3b82f6}
+*{box-sizing:border-box;margin:0;padding:0}html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,sans-serif}
+body{background:radial-gradient(ellipse at 50% 30%,#073a35 0%,#071923 40%,#050a12 75%);min-height:100vh}
+.container{max-width:620px;margin:0 auto;padding:20px 16px 40px}.header{text-align:center;margin-bottom:24px;padding-top:20px}.header h1{font-size:26px;color:var(--gold);letter-spacing:.12em}.header p{font-size:13px;color:var(--muted);margin-top:6px}
+.tabs{display:flex;gap:4px;background:var(--card);border-radius:12px;padding:4px;margin-bottom:20px;border:1px solid var(--card-border)}.tab{flex:1;padding:10px 5px;border-radius:8px;text-align:center;font-size:13px;color:var(--muted);cursor:pointer}.tab.active{background:rgba(243,186,47,.15);color:var(--yellow);font-weight:600}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px;backdrop-filter:blur(10px)}.card-title{font-size:15px;color:var(--yellow);margin-bottom:14px;display:flex;align-items:center;gap:8px}.card-title span{font-size:18px}
+label{display:block;font-size:13px;color:var(--muted);margin:12px 0 6px}input,textarea,select{width:100%;padding:12px 14px;background:#0b1218;border:1px solid #2a3836;border-radius:8px;color:var(--text);font-size:14px;outline:none}input:focus,textarea:focus,select:focus{border-color:var(--yellow)}textarea{resize:vertical;min-height:84px}
+.btn{width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:.2s}.btn:disabled{opacity:.55;cursor:not-allowed}.btn-primary{background:linear-gradient(135deg,#F3BA2F,#d4a017);color:#000;margin-bottom:8px}.btn-secondary{background:var(--card);color:var(--text);border:1px solid var(--card-border)}.btn-success{background:linear-gradient(135deg,#22e59a,#1bc485);color:#000}.btn-danger{background:transparent;border:1px solid var(--red);color:var(--red)}.mt-10{margin-top:10px}.mt-16{margin-top:16px}.hidden{display:none!important}.info-box{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.25);border-radius:10px;padding:13px;font-size:13px;line-height:1.55;margin:12px 0}.warning-box{background:rgba(243,186,47,.08);border-color:rgba(243,186,47,.25);color:#e9c56b}.wallet-info{text-align:center}.address-box{background:#0b1218;border-radius:10px;padding:14px;margin:12px 0;word-break:break-all;font-size:12px;color:var(--cyan);font-family:monospace;display:flex;justify-content:space-between;align-items:center;gap:10px}.copy-btn{background:transparent;border:0;color:var(--yellow);cursor:pointer;font-size:16px}.balance-display{font-size:34px;font-weight:700;color:var(--green);margin:8px 0;overflow-wrap:anywhere}.balance-usd{font-size:13px;color:var(--muted);margin-bottom:12px}.network-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}.network-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;background:#0b1218;border-radius:8px;border:1px solid var(--card-border);font-size:13px}.network-dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}.quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:18px 0}.action-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:13px 5px;background:var(--card);border:1px solid var(--card-border);border-radius:12px;cursor:pointer}.action-btn:hover{border-color:var(--yellow)}.action-icon{font-size:20px}.action-label{font-size:11px;color:var(--muted)}.metric-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{background:#0b1218;border:1px solid var(--card-border);padding:13px;border-radius:10px;min-width:0}.metric small{display:block;color:var(--muted);font-size:11px;margin-bottom:6px}.metric strong{font-size:14px;overflow-wrap:anywhere}.list-row{padding:12px 0;border-bottom:1px solid rgba(100,155,144,.12);display:flex;justify-content:space-between;gap:10px;font-size:12px}.list-row:last-child{border-bottom:0}.list-row a{color:var(--cyan);text-decoration:none}.muted{color:var(--muted)}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,100px);opacity:0;background:#0d2924;border:1px solid #1c7558;color:#b9ffe2;padding:12px 18px;border-radius:10px;font-size:13px;z-index:1000;transition:.25s;max-width:92%;text-align:center}.toast.show{transform:translate(-50%,0);opacity:1}.toast.error{background:#240f0f;border-color:#8b2c2c;color:#ffc9c9}.toast.warning{background:#24200f;border-color:#7a6622;color:#ffe89c}.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:999;opacity:0;visibility:hidden;transition:.2s;padding:16px}.modal-overlay.active{opacity:1;visibility:visible}.modal{background:#08141b;border:1px solid var(--line);border-radius:16px;padding:22px;max-width:440px;width:100%;max-height:90vh;overflow-y:auto}.modal h3{font-size:18px;margin-bottom:12px;color:var(--yellow)}.modal-actions{display:flex;gap:10px;margin-top:18px}.modal-actions .btn{flex:1}.small{font-size:11px;color:var(--muted);line-height:1.5}.pill{font-size:11px;border:1px solid var(--line);border-radius:99px;padding:4px 8px;color:var(--green)}
+@media(max-width:390px){.container{padding:14px 10px 32px}.card{padding:15px}.balance-display{font-size:28px}.quick-actions{gap:5px}.action-btn{padding:10px 3px}.action-label{font-size:10px}.tab{font-size:12px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <header class="header"><h1>🔐 RV.Web3</h1><p>Carteira Multi-Rede · Sua chave, seus ativos</p><p class="mt-10"><span class="pill">Painel blockchain</span></p></header>
+  <nav class="tabs" aria-label="Navegação">
+    <div class="tab active" data-tab="wallet">Carteira</div><div class="tab" data-tab="create">Criar/Importar</div><div class="tab" data-tab="connect">Conectar</div>
+  </nav>
+  <section id="tab-wallet" class="tab-content">
+    <div id="no-wallet-view" class="card"><div class="card-title"><span>💡</span> Bem-vindo</div>
+      <p class="muted" style="font-size:14px;line-height:1.6;margin-bottom:15px">Conecte uma carteira ou importe uma carteira local. As chaves privadas não são enviadas ao backend. O painel Binance Web3 consulta dados públicos da blockchain para o endereço conectado.</p>
+      <button class="btn btn-primary" onclick="switchTab('create')">✨ Criar ou Importar</button><button class="btn btn-secondary mt-10" onclick="switchTab('connect')">🔗 Conectar carteira externa</button>
+    </div>
+    <div id="wallet-view" class="hidden">
+      <div class="card">
+        <div class="network-row"><span class="network-badge"><span class="network-dot"></span><span id="network-name">Ethereum</span></span><select id="network-select" style="flex:1;min-width:170px;padding:9px" onchange="trocarRede()"><option value="ethereum">Ethereum (ETH)</option><option value="bsc">BNB Smart Chain (BNB)</option><option value="polygon">Polygon (POL)</option><option value="arbitrum">Arbitrum (ETH)</option><option value="base">Base (ETH)</option></select></div>
+        <div class="wallet-info"><div class="address-box"><span id="wallet-address">--</span><button class="copy-btn" onclick="copiarEndereco()">📋</button></div><div class="balance-display" id="wallet-balance">—</div><div class="balance-usd" id="balance-usd">Saldo nativo na rede selecionada</div></div>
+        <div class="quick-actions"><div class="action-btn" onclick="abrirModalReceber()"><span class="action-icon">⬇️</span><span class="action-label">Receber</span></div><div class="action-btn" onclick="abrirModalEnviar()"><span class="action-icon">⬆️</span><span class="action-label">Enviar</span></div><div class="action-btn" onclick="carregarPainel()"><span class="action-icon">🔄</span><span class="action-label">Atualizar</span></div><div class="action-btn" onclick="desconectarCarteira()"><span class="action-icon">🔌</span><span class="action-label">Sair</span></div></div>
+      </div>
+      <div class="card"><div class="card-title"><span>📊</span> Painel Binance Web3</div><p class="small" style="margin-bottom:12px">Dados de ativos e transações fornecidos pela Binance Web3 Wallet API. A disponibilidade varia conforme a rede e as permissões da API.</p><div class="metric-grid"><div class="metric"><small>Rede consultada</small><strong id="api-network">—</strong></div><div class="metric"><small>Ativos retornados</small><strong id="asset-count">—</strong></div></div><div id="api-status" class="info-box">Conecte uma carteira e toque em Atualizar para consultar.</div><div id="asset-list"><p class="small">Os ativos aparecerão aqui quando a consulta for concluída.</p></div></div>
+      <div class="card"><div class="card-title"><span>📜</span> Transações recentes</div><div id="tx-history"><p class="small">Nenhuma consulta realizada.</p></div></div>
+    </div>
+  </section>
+  <section id="tab-create" class="tab-content hidden">
+    <div class="card"><div class="card-title"><span>✨</span> Criar nova carteira</div><div class="info-box warning-box"><strong>⚠️ Segurança:</strong> a frase de recuperação dá controle total sobre os fundos. Anote offline. Nunca compartilhe nem envie para suporte. A carteira fica apenas nesta sessão até você baixar um backup JSON cifrado. O site não envia sua chave privada ao backend.</div><button class="btn btn-primary" onclick="gerarFrase()">🔑 Gerar frase de 12 palavras</button><div id="mnemonic-display" class="hidden mt-16"><textarea id="mnemonic-text" readonly autocomplete="off"></textarea><button class="btn btn-secondary mt-10" onclick="copiarFrase()">📋 Copiar frase</button><button class="btn btn-success mt-10" onclick="criarCarteiraDaFrase()">✅ Guardei a frase — continuar</button></div></div>
+    <div class="card"><div class="card-title"><span>🔑</span> Importar com frase</div><label for="import-mnemonic">Frase de recuperação</label><textarea id="import-mnemonic" autocomplete="off" placeholder="Digite sua frase de recuperação"></textarea><button class="btn btn-primary mt-10" onclick="importarPorFrase()">🔓 Importar carteira</button></div>
+    <div class="card"><div class="card-title"><span>🔒</span> Importar com chave privada</div><label for="import-privatekey">Chave privada</label><input type="password" id="import-privatekey" autocomplete="off" placeholder="0x..."><button class="btn btn-primary mt-10" onclick="importarPorChave()">🔓 Importar</button></div>
+    <div class="card"><div class="card-title"><span>🛡️</span> Backup cifrado e recuperação</div><p class="small">Crie um arquivo JSON cifrado com senha para guardar offline. O arquivo só pode ser aberto com a senha definida. Não envie o backup ou a senha para ninguém.</p><label for="backup-password">Senha forte para o backup</label><input type="password" id="backup-password" autocomplete="new-password" minlength="12" placeholder="Use uma senha longa (mín. 12 caracteres)"><button class="btn btn-success mt-10" onclick="baixarBackupCifrado()">⬇️ Baixar backup cifrado</button><label for="backup-file">Restaurar backup JSON cifrado</label><input type="file" id="backup-file" accept=".json,application/json"><label for="restore-password">Senha do backup</label><input type="password" id="restore-password" autocomplete="current-password" placeholder="Senha usada ao criar o backup"><button class="btn btn-primary mt-10" onclick="restaurarBackupCifrado()">🔐 Desbloquear e restaurar</button><p class="small mt-10">A carteira externa (MetaMask/Trust/Binance) não permite exportar a chave privada por este site. Faça backup pelo próprio aplicativo da carteira.</p></div>
+  </section>
+  <section id="tab-connect" class="tab-content hidden">
+    <div class="card"><div class="card-title"><span>🦊</span> MetaMask</div><p class="muted small">Solicita autorização ao provedor MetaMask quando detectado.</p><button class="btn btn-primary mt-10" onclick="conectarCarteiraExterna('metamask')">🦊 Conectar MetaMask</button></div>
+    <div class="card"><div class="card-title"><span>💙</span> Trust Wallet</div><p class="muted small">Use a extensão compatível ou abra o site no navegador DApp da Trust Wallet.</p><button class="btn btn-secondary mt-10" onclick="conectarCarteiraExterna('trust')">💙 Conectar Trust Wallet</button></div>
+    <div class="card"><div class="card-title"><span>🟡</span> Binance Web3 Wallet</div><p class="muted small">Detecta um provedor EVM injetado pela carteira Binance quando disponível. A API REST Binance usada no painel não substitui a conexão/assinatura da carteira.</p><button class="btn btn-secondary mt-10" onclick="conectarCarteiraExterna('binance')">🟡 Conectar Binance Wallet</button></div>
+    <div class="card"><div class="card-title"><span>🔗</span> Outra carteira / navegador DApp</div><p class="muted small">Para carteiras EVM compatíveis com EIP-1193 que injetem um provedor no navegador.</p><button class="btn btn-secondary mt-10" onclick="conectarCarteiraExterna('auto')">Detectar carteira EVM</button><p class="small mt-10">WalletConnect não está ativado nesta versão; exige integração adicional do SDK e configuração de um Project ID.</p></div>
+    <div class="info-box"><strong>ℹ️ Sobre a integração:</strong> a Binance Web3 Wallet API consultada pelo backend fornece dados de carteira on-chain; ela não é, por si só, uma API de conexão do usuário nem assina transações em seu nome. A assinatura de envio continua sendo feita localmente ou pela carteira externa.</div>
+  </section>
+</div>
+<div id="modal-enviar" class="modal-overlay"><div class="modal"><h3>⬆️ Enviar ativo nativo</h3><p class="small">Confirme rede, endereço e valor antes de assinar. A taxa de rede será cobrada separadamente.</p><label for="destinatario">Endereço do destinatário</label><input id="destinatario" placeholder="0x..." autocomplete="off"><label for="quantidade">Quantidade (<span id="send-symbol">ETH</span>)</label><input type="number" step="any" min="0" id="quantidade" placeholder="0.00"><div id="gas-estimate" class="info-box">A taxa será estimada antes do envio.</div><div class="modal-actions"><button class="btn btn-secondary" onclick="fecharModal('enviar')">Cancelar</button><button class="btn btn-primary" onclick="confirmarEnvio()">Enviar</button></div></div></div>
+<div id="modal-receber" class="modal-overlay"><div class="modal"><h3>⬇️ Receber</h3><p class="small">Compartilhe este endereço somente para receber ativos compatíveis com a rede selecionada.</p><div class="address-box"><span id="receive-address">—</span><button class="copy-btn" onclick="copiarEndereco()">📋</button></div><div class="info-box warning-box">Verifique sempre a rede antes de receber. Não envie ativos de outra rede sem confirmar a compatibilidade.</div><button class="btn btn-secondary" onclick="fecharModal('receber')">Fechar</button></div></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.1/ethers.umd.min.js"></script>
+<script src="./config.js"></script>
+<script>
+'use strict';
+const REDES={
+ ethereum:{nome:'Ethereum',simbolo:'ETH',rpc:'https://eth.llamarpc.com',explorador:'https://etherscan.io/tx/',chainId:1,binanceChainId:'1'},
+ bsc:{nome:'BNB Smart Chain',simbolo:'BNB',rpc:'https://bsc-dataseed.binance.org',explorador:'https://bscscan.com/tx/',chainId:56,binanceChainId:'56'},
+ polygon:{nome:'Polygon',simbolo:'POL',rpc:'https://polygon-bor-rpc.publicnode.com',explorador:'https://polygonscan.com/tx/',chainId:137,binanceChainId:'137'},
+ arbitrum:{nome:'Arbitrum',simbolo:'ETH',rpc:'https://arb1.arbitrum.io/rpc',explorador:'https://arbiscan.io/tx/',chainId:42161,binanceChainId:'42161'},
+ base:{nome:'Base',simbolo:'ETH',rpc:'https://mainnet.base.org',explorador:'https://basescan.org/tx/',chainId:8453,binanceChainId:'8453'}
+};
+let carteiraLocal=null, providerExterno=null, signerExterno=null, enderecoAtual=null, redeAtual='ethereum', mnemonicaGerada=null;
+let providerRPC=new ethers.JsonRpcProvider(REDES[redeAtual].rpc);
+function toast(msg,tipo=''){const el=document.getElementById('toast');el.textContent=msg;el.className='toast '+tipo+' show';clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove('show'),4000)}
+function switchTab(nome){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===nome));document.querySelectorAll('.tab-content').forEach(c=>c.classList.add('hidden'));document.getElementById('tab-'+nome).classList.remove('hidden')}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>switchTab(t.dataset.tab)));
+function atualizarInterface(){const has=!!enderecoAtual;document.getElementById('no-wallet-view').classList.toggle('hidden',has);document.getElementById('wallet-view').classList.toggle('hidden',!has);if(has){document.getElementById('wallet-address').textContent=enderecoAtual.slice(0,10)+'…'+enderecoAtual.slice(-8);document.getElementById('receive-address').textContent=enderecoAtual;atualizarNomeRede();carregarPainel()}}
+function atualizarNomeRede(){const r=REDES[redeAtual];document.getElementById('network-name').textContent=r.nome+' ('+r.simbolo+')';document.getElementById('send-symbol').textContent=r.simbolo}
+async function trocarRede(){
+ redeAtual=document.getElementById('network-select').value;
+ providerRPC=new ethers.JsonRpcProvider(REDES[redeAtual].rpc);
+ atualizarNomeRede();
+ if(providerExterno){
+  try{
+   const target=REDES[redeAtual];
+   await providerExterno.send('wallet_switchEthereumChain',[{chainId:'0x'+target.chainId.toString(16)}]);
+  }catch(e){
+   if(e.code===4902){
+    try{const r=REDES[redeAtual];await providerExterno.send('wallet_addEthereumChain',[{chainId:'0x'+r.chainId.toString(16),chainName:r.nome,nativeCurrency:{name:r.simbolo,symbol:r.simbolo,decimals:18},rpcUrls:[r.rpc],blockExplorerUrls:[r.explorador.replace(/tx\/$/,'')]}]);await providerExterno.send('wallet_switchEthereumChain',[{chainId:'0x'+r.chainId.toString(16)}]);}
+    catch{toast('Não foi possível adicionar/trocar a rede. Adicione-a manualmente na carteira.','warning')}
+   }else if(e.code===4001){toast('Troca de rede cancelada. A consulta pública continua disponível, mas o envio exige a rede correta.','warning')}
+   else{toast('A carteira não trocou de rede. Confirme a rede antes de enviar.','warning')}
+  }
+ }
+ await carregarPainel();
+}
+function gerarFrase(){try{const w=ethers.Wallet.createRandom();mnemonicaGerada=w.mnemonic.phrase;document.getElementById('mnemonic-text').value=mnemonicaGerada;document.getElementById('mnemonic-display').classList.remove('hidden');toast('Frase gerada. Anote offline e não compartilhe.','warning')}catch(e){toast('Não foi possível gerar a frase.','error')}}
+async function copiarFrase(){if(!mnemonicaGerada)return;try{await navigator.clipboard.writeText(mnemonicaGerada);toast('Copiada. Apague a área de transferência depois de anotar.','warning')}catch{toast('Cópia indisponível; anote offline.','warning')}}
+function criarCarteiraDaFrase(){if(!mnemonicaGerada){toast('Gere uma frase primeiro.','warning');return}try{carteiraLocal=ethers.HDNodeWallet.fromPhrase(mnemonicaGerada);enderecoAtual=carteiraLocal.address;mnemonicaGerada=null;document.getElementById('mnemonic-text').value='';document.getElementById('mnemonic-display').classList.add('hidden');document.getElementById('import-mnemonic').value='';switchTab('wallet');atualizarInterface();toast('Carteira criada nesta sessão. Baixe um backup cifrado antes de sair.','warning')}catch(e){toast('Não foi possível criar carteira.','error')}}
+function importarPorFrase(){const frase=document.getElementById('import-mnemonic').value.trim().replace(/\s+/g,' ');try{const w=ethers.HDNodeWallet.fromPhrase(frase);carteiraLocal=w;enderecoAtual=w.address;document.getElementById('import-mnemonic').value='';switchTab('wallet');atualizarInterface();toast('Carteira importada nesta sessão. Baixe um backup cifrado se precisar restaurá-la depois.','warning')}catch(e){toast('Frase inválida ou formato não suportado.','error')}}
+function importarPorChave(){const chave=document.getElementById('import-privatekey').value.trim();try{const w=new ethers.Wallet(chave);carteiraLocal=w;enderecoAtual=w.address;document.getElementById('import-privatekey').value='';switchTab('wallet');atualizarInterface();toast('Carteira importada nesta sessão. Baixe um backup cifrado se precisar restaurá-la depois.','warning')}catch(e){toast('Chave privada inválida.','error')}}
+async function baixarBackupCifrado(){
+ if(!carteiraLocal){toast('Para carteiras externas, use o backup do próprio aplicativo.','warning');return}
+ const password=document.getElementById('backup-password').value;
+ if(password.length<12){toast('Use uma senha de pelo menos 12 caracteres.','warning');return}
+ try{toast('Cifrando backup localmente…','warning');const json=await carteiraLocal.encrypt(password);const blob=new Blob([json],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='rv-web3-backup-cifrado.json';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);document.getElementById('backup-password').value='';toast('Backup cifrado baixado. Guarde arquivo e senha separadamente.')}catch(e){console.error(e);toast('Falha ao criar backup cifrado.','error')}
+}
+async function restaurarBackupCifrado(){
+ const file=document.getElementById('backup-file').files?.[0];const password=document.getElementById('restore-password').value;
+ if(!file){toast('Selecione o arquivo JSON de backup.','warning');return}if(!password){toast('Digite a senha do backup.','warning');return}
+ try{if(file.size>2_000_000)throw Error('Arquivo muito grande');const json=await file.text();const wallet=await ethers.Wallet.fromEncryptedJson(json,password);carteiraLocal=wallet;providerExterno=null;signerExterno=null;enderecoAtual=wallet.address;document.getElementById('restore-password').value='';document.getElementById('backup-file').value='';switchTab('wallet');atualizarInterface();toast('Backup restaurado nesta sessão. Faça nova cópia offline se necessário.')}catch(e){console.error(e);toast('Não foi possível restaurar. Verifique arquivo e senha.','error')}
+}
+async function conectarCarteiraExterna(tipo='auto'){const providers=window.ethereum?.providers||[];let injected=null;if(tipo==='metamask')injected=providers.find(p=>p.isMetaMask)||(window.ethereum?.isMetaMask?window.ethereum:null);else if(tipo==='trust')injected=window.trustwallet?.ethereum||providers.find(p=>p.isTrust)||(window.ethereum?.isTrust?window.ethereum:null);else if(tipo==='binance')injected=window.BinanceChain||providers.find(p=>p.isBinanceWallet||p.isBinanceChainWallet)||(window.ethereum?.isBinanceWallet?window.ethereum:null);else injected=window.ethereum||window.BinanceChain;if(!injected){toast('Provedor '+({metamask:'MetaMask',trust:'Trust Wallet',binance:'Binance Wallet'}[tipo]||'EVM')+' não detectado. Abra este site no navegador da carteira ou use Detectar carteira EVM.','warning');return}try{providerExterno=new ethers.BrowserProvider(injected);await providerExterno.send('eth_requestAccounts',[]);signerExterno=await providerExterno.getSigner();enderecoAtual=await signerExterno.getAddress();carteiraLocal=null;const n=await providerExterno.getNetwork();const entry=Object.entries(REDES).find(([,r])=>r.chainId===Number(n.chainId));if(entry){redeAtual=entry[0];document.getElementById('network-select').value=redeAtual}else{toast('Carteira conectada em rede não listada. Selecione uma rede suportada na carteira.','warning')}switchTab('wallet');atualizarInterface();toast('Carteira conectada. Revise a rede antes de assinar.');injected.on?.('accountsChanged',a=>{if(!a.length)desconectarCarteira();else{enderecoAtual=ethers.getAddress(a[0]);atualizarInterface()}});injected.on?.('chainChanged',()=>location.reload())}catch(e){toast('Conexão cancelada ou indisponível.','error')}}
+function desconectarCarteira(){carteiraLocal=null;providerExterno=null;signerExterno=null;enderecoAtual=null;document.getElementById('wallet-balance').textContent='—';document.getElementById('asset-list').innerHTML='<p class="small">Nenhuma consulta realizada.</p>';document.getElementById('tx-history').innerHTML='<p class="small">Nenhuma consulta realizada.</p>';atualizarInterface();toast('Carteira desconectada.')}
+function abrirModalReceber(){document.getElementById('modal-receber').classList.add('active')}
+async function abrirModalEnviar(){if(!enderecoAtual){toast('Conecte uma carteira primeiro.','warning');return}document.getElementById('modal-enviar').classList.add('active');await estimarGas()}
+function fecharModal(n){document.getElementById('modal-'+n).classList.remove('active')}
+async function copiarEndereco(){if(!enderecoAtual)return;try{await navigator.clipboard.writeText(enderecoAtual);toast('Endereço copiado.')}catch{toast('Não foi possível copiar.','warning')}}
+async function estimarGas(){
+ try{
+  let p=providerRPC;
+  if(providerExterno){const n=await providerExterno.getNetwork();if(Number(n.chainId)===REDES[redeAtual].chainId)p=providerExterno;}
+  const fee=await p.getFeeData();const gas=21000n;const max=fee.maxFeePerGas??fee.gasPrice;
+  if(!max)throw Error('Taxa indisponível');
+  const native=ethers.formatEther(gas*max);
+  document.getElementById('gas-estimate').textContent='Estimativa aproximada para transferência simples: '+Number(native).toFixed(7)+' '+REDES[redeAtual].simbolo+'. O custo real depende da rede e será confirmado antes da assinatura.'
+ }catch{document.getElementById('gas-estimate').textContent='Não foi possível estimar agora. O envio tentará calcular o gas antes de assinar.'}
+}
+async function confirmarEnvio(){
+ const to=document.getElementById('destinatario').value.trim(),amount=document.getElementById('quantidade').value.trim();
+ if(!enderecoAtual){toast('Conecte uma carteira primeiro.','warning');return}
+ if(!ethers.isAddress(to)){toast('Endereço do destinatário inválido.','warning');return}
+ if(!amount||!Number.isFinite(Number(amount))||Number(amount)<=0){toast('Digite uma quantidade válida.','warning');return}
+ const button=document.querySelector('#modal-enviar .modal-actions .btn-primary');
+ if(button?.disabled)return;
+ if(button)button.disabled=true;
+ try{
+  const chain=REDES[redeAtual];let signer;
+  if(signerExterno){const n=await providerExterno.getNetwork();if(Number(n.chainId)!==chain.chainId){toast('A rede selecionada não corresponde à carteira. Troque a rede antes de enviar.','warning');return}signer=signerExterno}
+  else if(carteiraLocal){signer=carteiraLocal.connect(providerRPC)}
+  else{toast('Nenhum método de assinatura disponível.','warning');return}
+  const value=ethers.parseEther(amount);
+  const txRequest={to:ethers.getAddress(to),value};
+  const activeProvider=signer.provider||providerRPC;
+  const [balance,estimatedGas,feeData]=await Promise.all([activeProvider.getBalance(enderecoAtual),signer.estimateGas(txRequest),activeProvider.getFeeData()]);
+  const feePerGas=feeData.maxFeePerGas??feeData.gasPrice;
+  if(!feePerGas)throw Error('Não foi possível estimar a taxa de rede.');
+  const estimatedFee=estimatedGas*feePerGas;
+  if(balance<value+estimatedFee){toast('Saldo insuficiente para o valor mais a taxa estimada.','error');return}
+  txRequest.gasLimit=estimatedGas*120n/100n;
+  fecharModal('enviar');toast('Aguardando assinatura e envio…','warning');
+  const tx=await signer.sendTransaction(txRequest);
+  adicionarTransacao(tx.hash,to,amount,chain);toast('Transação enviada: '+tx.hash.slice(0,14)+'…');
+  const receipt=await tx.wait();
+  if(receipt?.status===1)toast('Transação confirmada na blockchain.');else toast('A transação foi incluída, mas falhou. Verifique o explorador.','error');
+  await carregarPainel();
+ }catch(e){
+  console.error(e);
+  const message=e.code==='ACTION_REJECTED'||e.code===4001?'Transação recusada na carteira.':(e.message&&/insufficient funds/i.test(e.message)?'Saldo insuficiente para pagar a transação e o gas.':'Falha no envio. Confira saldo, rede, RPC e estimativa de gas.');
+  toast(message,'error');
+ }finally{if(button)button.disabled=false}
+}
+async function api(path){const base=String(window.RV_API_BASE||'').trim().replace(/\/$/,'');const r=await fetch(base+path,{headers:{'Accept':'application/json'},signal:AbortSignal.timeout(15000)});const data=await r.json().catch(()=>({error:'Resposta inválida do servidor'}));if(!r.ok)throw new Error(data.error||'Erro no backend ('+r.status+')');return data}
+async function carregarPainel(){if(!enderecoAtual)return;const chain=REDES[redeAtual];document.getElementById('api-network').textContent=chain.nome;document.getElementById('api-status').textContent='Consultando saldo nativo e Binance Web3 API…';document.getElementById('asset-count').textContent='…';try{const externalNetwork=providerExterno?Number((await providerExterno.getNetwork()).chainId):null;const balanceProvider=(providerExterno&&externalNetwork===chain.chainId)?providerExterno:providerRPC;const balancePromise=balanceProvider.getBalance(enderecoAtual);const results=await Promise.allSettled([balancePromise,api('/api/binance/balances?address='+encodeURIComponent(enderecoAtual)+'&chainId='+chain.binanceChainId),api('/api/binance/transactions?address='+encodeURIComponent(enderecoAtual)+'&chains='+chain.binanceChainId+'&limit=10')]);if(results[0].status==='fulfilled'){document.getElementById('wallet-balance').textContent=Number(ethers.formatEther(results[0].value)).toLocaleString('pt-BR',{maximumFractionDigits:6})+' '+chain.simbolo}else{document.getElementById('wallet-balance').textContent='Indisponível'}
+let assets=[];if(results[1].status==='fulfilled'){const d=results[1].value;assets=(d.data||[]).flatMap(x=>x.tokenAssets||[]);document.getElementById('asset-count').textContent=String(assets.length);document.getElementById('asset-list').innerHTML=assets.length?assets.map(a=>`<div class="list-row"><span><strong>${escapeHtml(a.symbol||'Ativo')}</strong><br><span class="small">${a.tokenContractAddress?escapeHtml(a.tokenContractAddress.slice(0,8)+'…'+a.tokenContractAddress.slice(-6)):'Ativo nativo'}</span></span><span style="text-align:right"><strong>${escapeHtml(a.balance||'0')}</strong><br><span class="small">${a.tokenPrice?'≈ US$ '+Number(a.tokenPrice*Number(a.balance||0)).toLocaleString('en-US',{maximumFractionDigits:2}):''}</span></span></div>`).join(''):'<p class="small">Nenhum ativo retornado pela API para esta rede/endereço.</p>';document.getElementById('api-status').textContent='Consulta Binance Web3 concluída.'}else{document.getElementById('asset-count').textContent='—';document.getElementById('asset-list').innerHTML='<p class="small">Não foi possível carregar ativos da Binance Web3 API. Verifique as credenciais e permissões do backend.</p>';document.getElementById('api-status').textContent=results[1].reason?.message||'Falha na consulta Binance Web3.'}
+if(results[2].status==='fulfilled'){const txs=(results[2].value.data||[]).flatMap(x=>x.transactionList||[]);document.getElementById('tx-history').innerHTML=txs.length?txs.map(t=>{const outgoing=(t.from||[]).some(x=>String(x.address||'').toLowerCase()===enderecoAtual.toLowerCase());return `<div class="list-row"><span><strong>${outgoing?'⬆ Enviado':'⬇ Recebido / interação'} · ${escapeHtml(t.symbol||'Ativo')}</strong><br><span class="small">${new Date(Number(t.txTime||0)).toLocaleString('pt-BR')}</span></span><span style="text-align:right"><strong>${escapeHtml(t.amount||'—')}</strong><br><a href="${chain.explorador}${encodeURIComponent(t.txHash||'')}" target="_blank" rel="noopener noreferrer">Explorador ↗</a></span></div>`}).join(''):'<p class="small">Nenhuma transação retornada para o período disponível.</p>'}else{document.getElementById('tx-history').innerHTML='<p class="small">Histórico Binance Web3 indisponível; consulte o explorador da rede.</p>'}
+}catch(e){document.getElementById('api-status').textContent='Erro ao consultar o backend: '+e.message;toast('Painel parcialmente indisponível.','warning')}}
+function escapeHtml(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function adicionarTransacao(hash,to,amount,chain){const h=document.getElementById('tx-history');h.innerHTML=`<div class="list-row"><span><strong>⬆ Enviado agora</strong><br><span class="small">${escapeHtml(to.slice(0,10)+'…'+to.slice(-6))}</span></span><span style="text-align:right"><strong>${escapeHtml(amount)} ${chain.simbolo}</strong><br><a href="${chain.explorador}${hash}" target="_blank" rel="noopener noreferrer">Ver ↗</a></span></div>`+h.innerHTML}
+document.addEventListener('DOMContentLoaded',()=>{
+ atualizarInterface();
+ api('/api/health').then(d=>{
+  const status=document.getElementById('api-status');
+  if(!d.binanceConfigured)status.textContent='Backend acessível, mas a Binance Web3 API ainda não está configurada. Defina OC_API_KEY e OC_SECRET_KEY apenas no backend.';
+  else status.textContent='Backend conectado. Binance Web3 API configurada.';
+ }).catch(()=>{
+  document.getElementById('api-status').textContent='Backend não localizado. Se o frontend estiver no GitHub Pages, configure a URL HTTPS do backend em public/config.js e defina FRONTEND_ORIGIN no servidor.';
+ });
+});
+</script>
+</body></html>
